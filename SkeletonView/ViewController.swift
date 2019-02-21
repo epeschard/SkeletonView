@@ -49,7 +49,11 @@ class ViewController: UIViewController {
         gradientLayer.frame = skeletonView.bounds
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
-        gradientLayer.colors = [UIColor.lightGray.cgColor, UIColor.darkGray.cgColor]
+        gradientLayer.colors = [
+            UIColor.darkGray.cgColor,
+            UIColor.lightGray.cgColor,
+            UIColor.darkGray.cgColor
+        ]
         skeletonView.layer.addSublayer(gradientLayer)
     }
 
