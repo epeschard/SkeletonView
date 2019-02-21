@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     var gradientLayer: CAGradientLayer!
+    var startLocations: [NSNumber] = [0.0, 0.5, 1.0]
     
     let skeletonView: UIView = {
         let view = UIView()
@@ -54,6 +55,7 @@ class ViewController: UIViewController {
             UIColor.lightGray.cgColor,
             UIColor.darkGray.cgColor
         ]
+        gradientLayer.locations = startLocations
         skeletonView.layer.addSublayer(gradientLayer)
     }
 
