@@ -11,7 +11,8 @@ import UIKit
 class ViewController: UIViewController {
     
     var gradientLayer: CAGradientLayer!
-    var startLocations: [NSNumber] = [0.0, 0.5, 1.0]
+    var startLocations: [NSNumber] = [-1.0, -0.5, 0.0]
+    var endLocations: [NSNumber] = [1.0, 1.5, 2.0]
     
     let skeletonView: UIView = {
         let view = UIView()
@@ -28,6 +29,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupGradient()
+        animateGradient()
     }
     
     // MARK: - Private
@@ -51,12 +53,26 @@ class ViewController: UIViewController {
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
         gradientLayer.colors = [
-            UIColor.darkGray.cgColor,
-            UIColor.lightGray.cgColor,
-            UIColor.darkGray.cgColor
+            Gradient.background,
+            Gradient.moving,
+            Gradient.background
         ]
         gradientLayer.locations = startLocations
         skeletonView.layer.addSublayer(gradientLayer)
     }
+    
+    private func animateGradient() {
+        let animation = CABasicAnimation(keyPath: "locations")
+        animation.fromValue = startLocations
+        animation.toValue = endLocations
+        animation.duration = 0.9
+        animation.repeatCount = .infinity
+        gradientLayer.add(animation, forKey: animation.keyPath)
+    }
 
+}
+
+enum Gradient {
+    static let background = UIColor(white: 0.9, alpha: 1.0).cgColor
+    static let moving = UIColor(white: 0.7, alpha: 1.0).cgColor
 }
