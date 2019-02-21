@@ -51,6 +51,7 @@ class SkeletonView: UIView {
     
     func stopAnimating() {
         self.gradientLayer.removeAllAnimations()
+        self.isHidden = true
     }
     
 }
