@@ -14,8 +14,8 @@ class ViewController: UIViewController {
     
     let skeletonView: UIView = {
         let view = UIView()
-        view.backgroundColor = .blue
-        view.accessibilityIdentifier = "skeletonView"
+        view.backgroundColor = .gray
+        view.accessibilityLabel = "SkeletonView"
         return view
     }()
 
@@ -32,14 +32,15 @@ class ViewController: UIViewController {
     // MARK: - Private
     
     private func setup() {
+        view.backgroundColor = .white
         view.addSubview(skeletonView)
         skeletonView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             skeletonView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            skeletonView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            skeletonView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            skeletonView.heightAnchor.constraint(equalToConstant: 40)
+            skeletonView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            skeletonView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            skeletonView.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
 
@@ -48,9 +49,8 @@ class ViewController: UIViewController {
         gradientLayer.frame = skeletonView.bounds
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
-        gradientLayer.colors = [UIColor.green.cgColor, UIColor.blue.cgColor]
+        gradientLayer.colors = [UIColor.lightGray.cgColor, UIColor.darkGray.cgColor]
         skeletonView.layer.addSublayer(gradientLayer)
     }
 
 }
-
