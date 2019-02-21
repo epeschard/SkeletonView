@@ -13,11 +13,13 @@ class ViewController: UIViewController {
     var gradientLayer: CAGradientLayer!
     var startLocations: [NSNumber] = [-1.0, -0.5, 0.0]
     var endLocations: [NSNumber] = [1.0, 1.5, 2.0]
+    var animationDuration : CFTimeInterval = 0.8
+    var delay : CFTimeInterval = 1.0
     
     let skeletonView: UIView = {
         let view = UIView()
         view.backgroundColor = .gray
-        view.accessibilityLabel = "SkeletonView"
+        view.accessibilityLabel = Skeleton.accessibilityLabel
         return view
     }()
 
@@ -53,26 +55,37 @@ class ViewController: UIViewController {
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
         gradientLayer.colors = [
-            Gradient.background,
-            Gradient.moving,
-            Gradient.background
+            Skeleton.Gradient.background,
+            Skeleton.Gradient.moving,
+            Skeleton.Gradient.background
         ]
         gradientLayer.locations = startLocations
         skeletonView.layer.addSublayer(gradientLayer)
     }
     
     private func animateGradient() {
-        let animation = CABasicAnimation(keyPath: "locations")
+        let animation = CABasicAnimation(keyPath: Skeleton.Gradient.Animation.keyPath)
         animation.fromValue = startLocations
         animation.toValue = endLocations
-        animation.duration = 0.9
-        animation.repeatCount = .infinity
-        gradientLayer.add(animation, forKey: animation.keyPath)
+        animation.duration = animationDuration
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        
+        let animationGroup = CAAnimationGroup()
+        animationGroup.duration = animationDuration + delay
+        animationGroup.animations = [animation]
+        animationGroup.repeatCount = .infinity
+        gradientLayer.add(animationGroup, forKey: animation.keyPath)
     }
 
 }
 
-enum Gradient {
-    static let background = UIColor(white: 0.9, alpha: 1.0).cgColor
-    static let moving = UIColor(white: 0.7, alpha: 1.0).cgColor
+enum Skeleton {
+    static let accessibilityLabel = "SkeletonView"
+    enum Gradient {
+        static let background = UIColor(white: 0.9, alpha: 1.0).cgColor
+        static let moving = UIColor(white: 0.7, alpha: 1.0).cgColor
+        enum Animation {
+            static let keyPath = "locations"
+        }
+    }
 }
